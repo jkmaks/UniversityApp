@@ -63,7 +63,7 @@ public class HtmlExtractor {
                     time = time.replaceAll("ndash;", "-");
                     time = time.replaceAll("&amp;", "");
                     time = time.replaceAll(date + ", ", "");
-                    time = time.replace("PST", "");
+                    time = time.replace("PDT", "");
                 }
 
                 pat2 = "Campus location(.*?)/a";
@@ -94,23 +94,17 @@ public class HtmlExtractor {
 
                     if (matcher2.find()) {
                         room = matcher2.group();
-                        room = room.replace("<description>", "");
-                        room = room.replaceAll("&lt;", "");
-                        room = room.replaceAll("br/", "");
-                        room = room.replaceAll("&gt;", "");
-                        room = room.replaceAll("nbsp;", "");
-                        room = room.replaceAll("ndash;", "-");
-                        room = room.replaceAll("&amp;", "");
-
+                        room = room.replaceAll("<description>", "");
+                        room = room.replaceAll("&[^;]+;", "");
+                        room = room.replaceAll("#[^;]+;", "");
+                    }
+                    if(room.contains("2015") || room.contains("2016") || room.contains("2017")
+                            ||room.contains("2018"))    {
+                        room = "Room was not specified";
                     }
                 }
 
-                name = name.replaceAll("&lt;", "");
-                name = name.replaceAll("br/", "");
-                name = name.replaceAll("&gt;", "");
-                name = name.replaceAll("nbsp;", "");
-                name = name.replaceAll("ndash;", "-");
-                name = name.replaceAll("&amp;", "");
+                name = name.replaceAll("&.+;", "");
 
                 Log.d("Name is ", name);
                 Log.d("Time is ", time);
@@ -198,7 +192,7 @@ public class HtmlExtractor {
             for (Quarter quarter : quarters) {
                 map.put(quarter.getName(), quarter.getHref());
             }
-            Log.d("Getting quarters offline", "yes");
+            Log.d("Got quarters offline", "yes");
         }
         return map;
     }
