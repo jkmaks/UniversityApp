@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#ff000000">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true"
+        android:paddingTop="50dp">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/class_time"
+            android:textAlignment="center"
+            android:layout_weight="1.35"
+            android:clickable="true"
+            android:background="#4b2e83"
+            android:paddingRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="3dp"
+            android:dividerHeight="2dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingBottom="10dp"
+            android:footerDividersEnabled="false" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/class_name"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:clickable="true"
+            android:paddingRight="5dp"
+            android:background="#4b2e83"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="3dp"
+            android:dividerHeight="2dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollbars="none"
+            android:paddingBottom="10dp" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/class_room"
+            android:layout_weight="1.1"
+            android:clickable="true"
+            android:paddingRight="5dp"
+            android:background="#4b2e83"
+            android:paddingLeft="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="3dp"
+            android:dividerHeight="2dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollbars="none"
+            android:textAlignment="center"
+            android:paddingBottom="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:gravity="top">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Sort by time"
+            android:id="@+id/sortByTime"
+            android:layout_marginLeft="20dp"
+            android:onClick="setByTime" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by Professor"
+            android:id="@+id/sortByProfessor"
+            android:onClick="setByProfessor" />
+
+    </LinearLayout>
+</RelativeLayout>
