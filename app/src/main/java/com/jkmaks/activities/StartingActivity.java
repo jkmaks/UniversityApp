@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.jkmaks.Types.Campus;
 import com.jkmaks.Types.Event;
+import com.jkmaks.myuw.R;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class StartingActivity extends Activity implements StartingFragment.Progr
     private SplashScreenFragment mSplashScreenFragment;
     private static ArrayList<Campus> campuses;
     private static ArrayList<Event> events;
+
     @Override
     public void onCompletion(Double result) {
         Intent intent = new Intent(this, MainActivity.class);

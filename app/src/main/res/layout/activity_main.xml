@@ -87,7 +87,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Your classes for Winter 2015 in UW Tacoma:"
+        android:text="Your classes for Spring 2015 in UW Tacoma:"
         android:id="@+id/textView"
         android:layout_toEndOf="@+id/Buildings"
         android:layout_below="@+id/events_uw"

@@ -3,8 +3,14 @@ package com.jkmaks.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jkmaks.Types.Campus;
 import com.jkmaks.Types.DateRow;
@@ -14,6 +20,7 @@ import com.jkmaks.database.AllClassDB;
 import com.jkmaks.database.DateDB;
 import com.jkmaks.database.EventDB;
 import com.jkmaks.database.MajorDB;
+import com.jkmaks.myuw.R;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,17 +35,20 @@ import java.util.regex.Pattern;
  * 1/8/2015
  */
 public class StartingFragment extends Fragment {
+    TextView progressText;
+
+    ArrayList<String> textUpdates = new ArrayList<String>();
+    private int num_upd = 0;
 
     private static ArrayList<Campus> campuses = new ArrayList<Campus>();
     private static ArrayList<Event> events = new ArrayList<Event>();
     public enum CampusName {Seattle, Tacoma, Bothell};
     private HtmlExtractor he = new HtmlExtractor();
     private Activity activity;
-    DateDB datasourceDates;
-    EventDB datasourceEvents;
-
-    MajorDB datasourceMajors;
-    AllClassDB datasourceAllClasses;
+    private DateDB datasourceDates;
+    private EventDB datasourceEvents;
+    private MajorDB datasourceMajors;
+    private AllClassDB datasourceAllClasses;
 
     /**
      * Classes wishing to be notified of loading progress/completion
@@ -113,6 +123,7 @@ public class StartingFragment extends Fragment {
         datasourceMajors = new MajorDB(activity.getBaseContext());
         datasourceAllClasses = new AllClassDB(activity.getBaseContext());
         try {
+
             datasourceEvents.open();
             datasourceDates.open();
             datasourceAllClasses.open();
@@ -124,6 +135,23 @@ public class StartingFragment extends Fragment {
 
         events.clear();
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.starting,
+                container, false);
+        progressText = (TextView)rootView.findViewById(R.id.ProgressText);
+        progressText.setText("Bla");
+
+        textUpdates.add("Starting an events update: Seattle");
+        textUpdates.add("Starting an events update: Tacoma");
+        textUpdates.add("Starting an events update: Bothell");
+        textUpdates.add("Starting the quarter list update");
+        textUpdates.add("Starting the the major list update");
+        return rootView;
+    }
+
     private class LoadingTask extends AsyncTask<Void, Integer, Double>
     {
         @Override
@@ -131,17 +159,22 @@ public class StartingFragment extends Fragment {
 
             doEventUpdate("https://www.trumba.com/calendars/sea_campus.rss?filterview=No+Ongoing+Events&filter5=_409198_&filterfield5=30051", CampusName.Seattle,
                     datasourceDates, datasourceEvents);
+
             this.publishProgress(10);
             doEventUpdate("https://www.trumba.com/calendars/tac_campus.rss?filterview=No+Ongoing+Events&filter5=_409198_&filterfield5=30051", CampusName.Tacoma,
                     datasourceDates, datasourceEvents);
+            num_upd++;
             this.publishProgress(30);
             doEventUpdate("https://www.trumba.com/calendars/bot_campus.rss?filterview=No+Ongoing+Events&filter5=_409198_&filterfield5=30051", CampusName.Bothell,
                     datasourceDates, datasourceEvents);
+            num_upd++;
             this.publishProgress(50);
             datasourceEvents.close();
             doQuarterUpdate();
+            num_upd++;
             this.publishProgress(70);
             doMajorUpdate(datasourceDates, datasourceMajors);
+            num_upd++;
             this.publishProgress(90);
             datasourceEvents.close();
             datasourceDates.close();
@@ -162,8 +195,12 @@ public class StartingFragment extends Fragment {
         protected void onProgressUpdate(Integer... values) {
 
             if ( mProgressListener != null) {
+                Log.d("here we go", textUpdates.get(num_upd));
                 mProgressListener.onProgressUpdate(values[0]);
+                progressText.setText(textUpdates.get(num_upd));
             }
+
+
         }
     }
 
@@ -346,4 +383,5 @@ public class StartingFragment extends Fragment {
     public void setActivity(Activity the_activity)  {
         activity = the_activity;
     }
+
 }
