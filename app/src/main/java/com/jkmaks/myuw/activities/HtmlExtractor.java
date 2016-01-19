@@ -34,7 +34,6 @@ public class HtmlExtractor {
         date = date.substring(0, 1).toUpperCase() + date.substring(1);
         date = date.substring(0, 3) + ". " + now.monthDay + ", " + now.year;
 
-        //remove this "one" when I will go out from KZ.
         ArrayList<Event> events = new ArrayList<Event>();
         Log.d("!!Date is ", date);
         String pat = "<item>(.*?)" + date + "(.*?)</item>";
@@ -60,8 +59,13 @@ public class HtmlExtractor {
                 pat2 = "<title>(.*?)</title>";
                 pattern2 = Pattern.compile(pat2);
                 matcher2 = pattern2.matcher(item);
-                matcher2.find();
-                String name = matcher2.group();
+                String name = "";
+                if(matcher2.find()) {
+                     name = matcher2.group();
+                }   else{
+                        break;
+                }
+
                 name = name.substring(7, name.length() - 8);
 
                 pat2 = date + "(.*?)(PDT|PST)";
@@ -162,7 +166,7 @@ public class HtmlExtractor {
             datasourceDates.createDate(new DateRow(0, "Quarters", date));
             ArrayList<String> quarters = new ArrayList<String>();
             ArrayList<String> hrefs = new ArrayList<String>();
-            String pat = "<blockquote>(.*?)</blockquote>";
+            String pat = "<li>(.*?)</li>";
             Pattern pattern = Pattern.compile(pat);
             Matcher matcher = pattern.matcher(html);
 
@@ -185,11 +189,14 @@ public class HtmlExtractor {
                 pat2 = "\">(.*?)</a>";
                 pattern2 = Pattern.compile(pat2);
                 matcher2 = pattern2.matcher(item);
-                while (matcher2.find()) {
-                    String name = matcher2.group();
-                    name = name.replaceAll("\">", "");
-                    name = name.replaceAll("</a>", "");
-                    quarters.add(name);
+                if(item.contains("Spring") || item.contains("Autumn") || item.contains("Fall") ||
+                        item.contains("Summer") || item.contains("Winter")){
+                    while (matcher2.find()) {
+                        String name = matcher2.group();
+                        name = name.replaceAll("\">", "");
+                        name = name.replaceAll("</a>", "");
+                        quarters.add(name);
+                    }
                 }
             }
             Log.d("quarters are", "" + quarters);

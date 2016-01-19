@@ -23,38 +23,27 @@ public class ClassHTML_Getter extends AsyncTask<String, Void, String> {
 
     protected String doInBackground(String... urls) {
         StringBuilder builder = new StringBuilder();
-        Log.d("address is ", "address is " + address);
+        HttpURLConnection urlConnection = null;
         try {
             URL url = new URL(address);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String line;
-                while((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } catch (MalformedURLException e){
-                Log.e("error 2", " io exception, most likely no internet");
-                e.printStackTrace();
-            } catch (IOException e) {
-                Log.e("error 1", " io exception, most likely no internet");
-                e.printStackTrace();
-            } finally {
-                urlConnection.disconnect();
+            urlConnection = (HttpURLConnection) url.openConnection();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            while(reader.readLine() != null) {
+                builder.append(reader.readLine());
             }
         } catch (MalformedURLException e){
-            Log.e("error 2", " io exception, most likely no internet");
+            Log.e("error ", " most likely wrong address");
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e("error 1", " io exception, most likely no internet");
+            Log.e("error ", " io exception, most likely no internet");
             e.printStackTrace();
+        } finally {
+            urlConnection.disconnect();
         }
-
 
         Log.d("no error", builder.toString());
         return builder.toString();
     }
-
 
 
     public void setAddress(String the_address) {

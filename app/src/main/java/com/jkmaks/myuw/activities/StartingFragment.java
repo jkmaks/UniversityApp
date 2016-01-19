@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
  * 1/8/2015
  */
 public class StartingFragment extends Fragment {
-    TextView progressText;
 
     ArrayList<String> textUpdates = new ArrayList<String>();
     private int num_upd = 0;
@@ -141,9 +140,6 @@ public class StartingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.starting,
                 container, false);
-        progressText = (TextView)rootView.findViewById(R.id.ProgressText);
-        progressText.append("Bla");
-
         textUpdates.add("Starting an events update: Seattle");
         textUpdates.add("Starting an events update: Tacoma");
         textUpdates.add("Starting an events update: Bothell");
@@ -182,12 +178,7 @@ public class StartingFragment extends Fragment {
             datasourceDates.close();
             datasourceAllClasses.close();
             datasourceMajors.close();
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    progressText.setText("Testing");
-                }
-            });
+
 
 
             return 0.0;
@@ -208,11 +199,6 @@ public class StartingFragment extends Fragment {
             if ( mProgressListener != null) {
                 Log.d("here we go", textUpdates.get(num_upd));
                 mProgressListener.onProgressUpdate(values[0]);
-
-                progressText.setText(textUpdates.get(num_upd));
-                progressText.setEnabled(true);
-                progressText.refreshDrawableState();
-                Log.d("text view is ", " " +progressText.getText());
             }
 
 
@@ -375,7 +361,7 @@ public class StartingFragment extends Fragment {
     }
 
     private String extractEventHTML(String the_address) {
-        EventFromXML jg = new EventFromXML();
+        HTML_Getter jg = new HTML_Getter();
         String html = jg.get(the_address);
         return html;
     }

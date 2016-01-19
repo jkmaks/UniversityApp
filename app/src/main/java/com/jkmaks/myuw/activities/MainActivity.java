@@ -54,7 +54,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //here should be getextra from starting
-        extractHTML("https://www.trumba.com/calendars/tac_campus.rss?filterview=No+Ongoing+Events&filter5=_409198_&filterfield5=30051");
         campuses = (ArrayList<Campus>) getIntent().getSerializableExtra("campuses");
         events = (ArrayList<Event>) getIntent().getSerializableExtra("events");
         Log.d("events are ", events + "");
